@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block headblock %}
+    <title>Profile Page</title>
+{% endblock %}
+
+{% block bodyblock %}
+    {% if profile_page_user.userprofile.avatar %}
+        <h1>{{ profile_page_user.userprofile.avatar }}</h1>
+    {% else %}
+        <h1>default avatar</h1>
+    {% endif %}
+
+    {% if profile_page_user.pk is user.pk %}
+        <a href="{% url 'accounts:avatar_change' %}" type="button" class="btn btn-primary btn-sm">Change avatar</a>
+    {% endif %}
+
+    <p></p>
+    {{ profile_page_user.username|capfirst }}
+    <p></p>
+    {{ profile_page_user.email }}
+{% endblock %}

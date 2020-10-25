@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block headblock %}
+    <title>Index</title>
+{% endblock %}
+
+{% block bodyblock %}
+    <h1>Welcome to BookRoom!</h1>
+    <p></p>
+    <h1>Discussions:</h1>
+    {% for thread_category in thread_categories %}
+        <p></p>
+        <a href={% url 'threads:category' pk=thread_category.pk %}><h2>{{ thread_category }}</h2></a>
+        <p></p>
+    {% endfor %}
+
+    <h1>-----------------------------------------------</h1>
+
+    {% for market_category in market_categories %}
+        <p></p>
+        <a href={% url 'threads:category' pk=market_category.pk %}><h2>{{ market_category }}</h2></a>
+        <p></p>
+    {% endfor %}
+
+
+{% endblock %}

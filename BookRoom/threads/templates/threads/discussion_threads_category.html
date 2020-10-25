@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block headblock %}
+    <title>{{ thread_category.name }}</title>
+{% endblock %}
+
+{% block bodyblock %}
+    {% for thread in threads_in_current_category %}
+        <p></p>
+        <a href='#'><h2>{{ thread.name }}</h2></a>
+        <p></p>
+    {% endfor %}
+
+
+
+{% endblock %}
