@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block headblock %}
+    <title>{{ thread }}</title>
+{% endblock %}
+
+{% block bodyblock %}
+    {% for comment in comments %}
+        <p>{{ comment.poster }} said: {{ comment.text_content }}</p>
+        <p></p>
+        <p>-----------------</p>
+        <p></p>
+    {% endfor %}
+
+        <div class="basic">
+            {% include "threads/add_comment_subtemplate.html" %}
+        </div>
+
+
+{% endblock %}

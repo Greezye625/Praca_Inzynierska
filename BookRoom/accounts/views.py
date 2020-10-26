@@ -16,9 +16,9 @@ def change_avatar(request):
         if form.is_valid():
             user = request.user
             if not user.userprofile:
-                user.userprofile = UserProfile(avatar=request.POST['avatar'])
+                user.userprofile = UserProfile(avatar=form.cleaned_data['avatar'])
             else:
-                user.userprofile.avatar = request.POST['avatar']
+                user.userprofile.avatar = form.cleaned_data['avatar']
             user.userprofile.save()
 
         return redirect('accounts:user_profile_page', pk=request.user.pk)

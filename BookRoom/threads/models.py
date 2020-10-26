@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import UserProfile
+from django.contrib.auth import get_user_model
 
 
 class ThreadCategory(models.Model):
@@ -12,7 +13,7 @@ class ThreadCategory(models.Model):
 class Thread(models.Model):
     name = models.CharField(max_length=256)
 
-    creator = models.ForeignKey(UserProfile,
+    creator = models.ForeignKey(get_user_model(),
                                 related_name='creator_id',
                                 on_delete=models.SET_NULL,
                                 null=True)
@@ -32,7 +33,7 @@ class ThreadComment(models.Model):
                                related_name='thread',
                                on_delete=models.CASCADE)
 
-    poster = models.ForeignKey(UserProfile,
+    poster = models.ForeignKey(get_user_model(),
                                related_name='poster',
                                on_delete=models.SET_NULL,
                                null=True)
@@ -42,4 +43,4 @@ class ThreadComment(models.Model):
     text_content = models.TextField()
 
     def __str__(self):
-        return f'{self.thread} - {self.poster.user.username} - {str(self.post_datetime)}'
+        return f'{self.thread} - {self.poster} - {str(self.post_datetime)}'

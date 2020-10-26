@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import UserProfile
+from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -7,18 +8,18 @@ from accounts.models import UserProfile
 class Conversation(models.Model):
     subject = models.CharField(max_length=256)
 
-    initiator = models.ForeignKey(UserProfile,
+    initiator = models.ForeignKey(get_user_model(),
                                   related_name='initiator',
                                   on_delete=models.SET_NULL,
                                   null=True)
 
-    recipent = models.ForeignKey(UserProfile,
+    recipent = models.ForeignKey(get_user_model(),
                                  related_name='recipent',
                                  on_delete=models.SET_NULL,
                                  null=True)
 
     def __str__(self):
-        return f'{self.initiator.user.username} & {self.recipent.user.username} - {self.subject}'
+        return f'{self.initiator} & {self.recipent} - {self.subject}'
 
 
 class Message(models.Model):
@@ -26,12 +27,12 @@ class Message(models.Model):
                                     related_name='conversation',
                                     on_delete=models.CASCADE)
 
-    sender = models.ForeignKey(UserProfile,
+    sender = models.ForeignKey(get_user_model(),
                                related_name='sender',
                                on_delete=models.SET_NULL,
                                null=True)
 
-    receiver = models.ForeignKey(UserProfile,
+    receiver = models.ForeignKey(get_user_model(),
                                  related_name='receiver',
                                  on_delete=models.SET_NULL,
                                  null=True)
@@ -39,3 +40,6 @@ class Message(models.Model):
     date_time_sent = models.DateTimeField(auto_now_add=True)
 
     content = models.TextField()
+
+    def __str__(self):
+        return f'{self.coversation.subject} - {self.content}'

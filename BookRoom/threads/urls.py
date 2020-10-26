@@ -22,4 +22,5 @@ app_name = 'threads'
 
 urlpatterns = [
     re_path('^category/(?P<pk>\d+)/$', views.category, name='category'),
+    re_path('^thread/(?P<pk>\d+)/$', views.thread_view, name='thread'),
 ]

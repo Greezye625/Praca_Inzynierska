@@ -7,7 +7,7 @@
 {% block bodyblock %}
     {% for thread in threads_in_current_category %}
         <p></p>
-        <a href='#'><h2>{{ thread.name }}</h2></a>
+        <a href={% url 'threads:thread' pk=thread.pk %}><h2>{{ thread.name }}</h2></a>
         <p></p>
     {% endfor %}
 
