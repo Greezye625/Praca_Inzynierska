@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block headblock %}
-    <title>{{ thread_category.name }}</title>
+    <title>{{ thread_category }}</title>
 {% endblock %}
 
 {% block bodyblock %}
+    <a href={% url 'threads:start_new_thread' pk=thread_category.pk %} type="button" class="btn btn-primary btn-md">Start New Thread</a>
+
     {% for thread in threads_in_current_category %}
         <p></p>
         <a href={% url 'threads:thread' pk=thread.pk %}><h2>{{ thread.name }}</h2></a>

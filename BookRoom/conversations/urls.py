@@ -16,12 +16,12 @@ Including another URLconf
 
 from django.contrib.auth import views as auth_views
 from django.urls import path, include, re_path
-from threads import views
+from conversations import views
 
-app_name = 'threads'
+app_name = 'conversations'
 
 urlpatterns = [
-    re_path('^category/(?P<pk>\d+)/$', views.category, name='category'),
-    re_path('^thread/(?P<pk>\d+)/$', views.thread_view, name='thread'),
-    re_path('^new_thread/(?P<pk>\d+)/$', views.start_new_thread, name='start_new_thread'),
+    re_path('^start_new/(?P<recipent_pk>\d+)/$', views.start_new_conversation_from_profile, name='start_new'),
+    re_path('^conv_page/(?P<conversation_pk>\d+)/$', views.conversation_view, name='conversation_page'),
+    path('convs_panel/', views.conversations_panel, name='conversations_panel'),
 ]

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block headblock %}
+    <title>Conversation</title>
+{% endblock %}
+
+{% block bodyblock %}
+    {% if conversation.initiator == user %}
+        <p>Conversation with {{ conversation.recipent }}</p>
+    {% elif conversation.recipent == user %}
+        <p>Conversation with {{ conversation.initiator }}</p>
+    {% endif %}
+
+    <p></p>
+    <p>Subject: {{ conversation.subject }}</p>
+
+    {% for message in messages %}
+        <p><a href={% url 'accounts:user_profile_page' pk=message.sender.pk %}>{{ message.sender }}</a>: {{ message.content }}</p>
+        <p></p>
+        {% if message.sender == user %}
+            <a href="#" type="button" class="btn btn-primary btn-md">Delete message</a>
+        {% endif %}
+        <p>-----------------</p>
+        <p></p>
+    {% endfor %}
+
+    <div class="basic">
+        {% include "conversations/add_reply_to_convo_subtemplate.html" %}
+    </div>
+
+
+{% endblock %}

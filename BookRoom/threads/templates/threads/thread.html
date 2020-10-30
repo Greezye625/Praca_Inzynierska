@@ -6,8 +6,11 @@
 
 {% block bodyblock %}
     {% for comment in comments %}
-        <p>{{ comment.poster }} said: {{ comment.text_content }}</p>
+        <p><a href={% url 'accounts:user_profile_page' pk=comment.poster.pk %}>{{ comment.poster }}</a> said: {{ comment.text_content }}</p>
         <p></p>
+        {% if comment.poster == user %}
+            <a href="#" type="button" class="btn btn-primary btn-md">Delete Comment</a>
+        {% endif %}
         <p>-----------------</p>
         <p></p>
     {% endfor %}

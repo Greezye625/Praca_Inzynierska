@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block headblock %}
+    <title>Stat new conversation with {{ recipent }}</title>
+{% endblock %}
+
+{% block bodyblock %}
+    <form action="{% url 'conversations:start_new' recipent_pk=recipent.pk %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Send">
+    </form>
+{% endblock %}

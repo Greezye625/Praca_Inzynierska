@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block headblock %}
+    <title>{{ thread_category }} - new thread</title>
+{% endblock %}
+
+
+{% block bodyblock %}
+    <form action={% url 'threads:start_new_thread' pk=thread_category.pk %} method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Start Thread">
+    </form>
+{% endblock %}

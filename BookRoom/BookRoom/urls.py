@@ -22,4 +22,6 @@ urlpatterns = [
     path('', thread_views.homepage, name='homepage'),
     path('accounts/', include('accounts.urls')),
     path('threads/', include('threads.urls')),
+    path('conversations/', include('conversations.urls')),
+
 ]

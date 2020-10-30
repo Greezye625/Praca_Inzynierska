@@ -45,3 +45,34 @@ def thread_view(request, pk):
             thread_comment.save()
 
         return redirect('threads:thread', pk=pk)
+
+
+def start_new_thread(request, pk):
+    thread_category = ThreadCategory.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = forms.AddThread(request.POST)
+
+        if form.is_valid():
+
+            new_thread = Thread(name=form.cleaned_data['name'],
+                                creator=request.user,
+                                thread_category=thread_category)
+
+            new_thread.save()
+
+            first_comment = ThreadComment(thread=new_thread,
+                                          poster=request.user,
+                                          text_content=form.cleaned_data['first_comment'])
+            first_comment.save()
+
+            return redirect('threads:thread', pk=new_thread.pk)
+
+        else:
+            # TODO add error page
+            print('error creating thread - need to have page here')
+
+
+    elif request.method == 'GET':
+        form = forms.AddThread()
+        return render(request, 'threads/start_new_thread.html', context={'thread_category': thread_category,
+                                                                         'form': form})

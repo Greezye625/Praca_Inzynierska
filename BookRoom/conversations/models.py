@@ -23,7 +23,7 @@ class Conversation(models.Model):
 
 
 class Message(models.Model):
-    coversation = models.ForeignKey(Conversation,
+    conversation = models.ForeignKey(Conversation,
                                     related_name='conversation',
                                     on_delete=models.CASCADE)
 
@@ -42,4 +42,4 @@ class Message(models.Model):
     content = models.TextField()
 
     def __str__(self):
-        return f'{self.coversation.subject} - {self.content}'
+        return f'{self.conversation.subject} - {self.content}'

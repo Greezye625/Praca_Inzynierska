@@ -16,6 +16,10 @@
         <a href="{% url 'accounts:avatar_change' %}" type="button" class="btn btn-primary btn-sm">Change avatar</a>
     {% endif %}
 
+    {% if profile_page_user.pk is not user.pk%}
+        <a href="{% url 'conversations:start_new' recipent_pk=profile_page_user.pk %}" type="button" class="btn btn-primary btn-sm">Send a message</a>
+    {% endif %}
+
     <p></p>
     {{ profile_page_user.username|capfirst }}
     <p></p>

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block headblock %}
+    <title>Conversations</title>
+{% endblock %}
+
+{% block bodyblock %}
+    {% for conversation in conversations %}
+{#        <p>#}
+            <a href="{% url 'conversations:conversation_page' conversation_pk=conversation.pk %}"><h2>{{ conversation.subject }}</h2></a>
+{#            <p></p>#}
+            with:
+            {% if user == conversation.initiator %}
+                <a href="{% url 'accounts:user_profile_page' pk=conversation.recipent.pk %}">{{ conversation.recipent }}</a>
+            {% else %}
+                <a href="{% url 'accounts:user_profile_page' pk=conversation.initiator.pk %}">{{ conversation.initiator }}</a>
+            {% endif %}
+{#        </p>#}
+        <p></p>
+        <p>-----------------</p>
+        <p></p>
+    {% endfor %}
+
+    {#        <div class="basic">#}
+    {#            {% include "threads/add_comment_subtemplate.html" %}#}
+    {#        </div>#}
+
+{% endblock %}
