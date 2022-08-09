@@ -5,22 +5,40 @@
 {% endblock %}
 
 {% block bodyblock %}
-    <h1>Welcome to BookRoom!</h1>
+
     <p></p>
-    <h1>Discussions:</h1>
-    {% for thread_category in thread_categories %}
-        <p></p>
-        <a href={% url 'threads:category' pk=thread_category.pk %}><h2>{{ thread_category }}</h2></a>
-        <p></p>
-    {% endfor %}
+    <div class="my-2 p-2 bg-white rounded shadow-sm">
+        <h2 class="border-bottom py-2 mb-0">Discussions</h2>
+        {% for thread_category in thread_categories %}
 
-    <h1>-----------------------------------------------</h1>
+            <div class="d-flex text-muted py-2 border-bottom">
+                <img class="icon" src="/static/icons/book_icon.png" alt="...">
 
-    {% for market_category in market_categories %}
-        <p></p>
-        <a href={% url 'threads:category' pk=market_category.pk %}><h2>{{ market_category }}</h2></a>
-        <p></p>
-    {% endfor %}
+                <h5 class="py-2 mb-0 medium lh-sm">
+                    <a href={% url 'threads:category' pk=thread_category.pk %}><strong class="d-block text-gray-dark link_text">{{ thread_category }}</strong></a>
+                </h5>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="my-2 p-2 bg-white rounded shadow-sm">
+        <h2 class="border-bottom py-2 mb-0">Market</h2>
+        {% for market_category in market_categories %}
+
+            <div class="d-flex text-muted py-2 border-bottom">
+                {% if market_category.name in 'BuySellExchange' %}
+                    <img class="icon" src="/static/icons/offer.png" alt="...">
+                {% else %}
+                    <img class="icon" src="/static/icons/book_icon.png" alt="...">
+                {% endif %}
+
+                <h5 class="py-2 mb-0 medium lh-sm">
+                    <a href={% url 'threads:category' pk=market_category.pk %}><strong class="d-block text-gray-dark link_text">{{ market_category }}</strong></a>
+                </h5>
+            </div>
+        {% endfor %}
+    </div>
 
 
 {% endblock %}

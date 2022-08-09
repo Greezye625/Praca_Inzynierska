@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 
 {% block headblock %}
-    <title>{{ thread_category }} - new thread</title>
+    <title>{{ thread_category }}</title>
 {% endblock %}
 
 
 {% block bodyblock %}
-    <form action={% url 'threads:start_new_thread' pk=thread_category.pk %} method="post">
+    <p></p>
+    <form action="{% url 'threads:start_new_thread' pk=thread_category.pk %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Start Thread">
+        {% if thread_category.name in 'BuySellExchange' %}
+            <input class="btn btn-primary btn-md blue_button" type="submit" value="Post Offer">
+        {% else %}
+            <input class="btn btn-primary btn-md blue_button" type="submit" value="Start Discussion">
+        {% endif %}
     </form>
 {% endblock %}

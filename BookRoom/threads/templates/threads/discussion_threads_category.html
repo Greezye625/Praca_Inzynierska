@@ -5,14 +5,35 @@
 {% endblock %}
 
 {% block bodyblock %}
-    <a href={% url 'threads:start_new_thread' pk=thread_category.pk %} type="button" class="btn btn-primary btn-md">Start New Thread</a>
+    <p></p>
 
-    {% for thread in threads_in_current_category %}
-        <p></p>
-        <a href={% url 'threads:thread' pk=thread.pk %}><h2>{{ thread.name }}</h2></a>
-        <p></p>
-    {% endfor %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'threads:start_new_thread' pk=thread_category.pk %}" class="btn btn-primary btn-lg blue_button">
+            {% if thread_category.name in 'BuySellExchange' %}
+                New Transaction Offer
+            {% else %}
+                New Discussion Thread
+            {% endif %}
+        </a>
+    {% endif %}
+
+    <div class="my-2 p-2 bg-white rounded shadow-sm">
+        <h2 class="border-bottom py-2 mb-0">{{ thread_category }}</h2>
+        {% for thread in threads_in_current_category %}
+
+            <div class="d-flex text-muted py-2 border-bottom">
+                {% if thread_category.name in 'BuySellExchange' %}
+                    <img class="icon" src="/static/icons/offer.png" alt="...">
+                {% else %}
+                    <img class="icon" src="/static/icons/book_icon.png" alt="...">
+                {% endif %}
 
 
+                <h5 class="py-2 mb-0 medium lh-sm">
+                    <a href={% url 'threads:thread' pk=thread.pk %}><strong class="d-block text-gray-dark link_text">{{ thread }}</strong></a>
+                </h5>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

@@ -17,13 +17,13 @@ def start_new_conversation_from_profile(request, recipent_pk):
                                             recipent=recipent)
             new_conversation.save()
 
-            first_message = Message(coversation=new_conversation,
+            first_message = Message(conversation=new_conversation,
                                     sender=request.user,
                                     receiver=recipent,
                                     content=form.cleaned_data['message'])
             first_message.save()
 
-            return redirect('conversations:conversation_panel', conversation_pk=new_conversation.pk)
+            return redirect('conversations:conversation_page', conversation_pk=new_conversation.pk)
 
         else:
             # TODO add error page

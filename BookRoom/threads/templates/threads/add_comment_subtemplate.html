@@ -1,6 +1,9 @@
-<h1>Add new Comment:</h1>
+
+
 <form action="{% url 'threads:thread' pk=thread.pk %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Submit">
+    <p></p>
+    <input class="btn btn-primary btn-lg blue_button" type="submit" value="Submit">
+
 </form>

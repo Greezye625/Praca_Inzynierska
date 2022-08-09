@@ -1,0 +1,68 @@
+.icon {
+    padding-right: 10px;
+    width: 58px;
+    height: 48px;
+}
+
+
+.link_text {
+
+    color: #485c84 !important;
+
+}
+
+.nav-item:hover {
+    font-weight: bold;
+}
+
+.link_text:hover {
+    color: #2952a3 !important;
+    font-weight: bold;
+}
+
+.blue_button {
+    background-color: #7083a9;
+    border-color: #7083a9;
+}
+
+.blue_button:hover {
+    background-color: #2952a3 !important;
+}
+
+.mynav {
+    background-color: #7083a9;
+    border-radius: 5px;
+}
+
+@media (min-width: 1800px) {
+    .navcontainer {
+        max-width: 1250px;
+    }
+}
+
+div {
+    word-wrap: break-word;
+}
+
+.center_content {
+    text-align: center
+}
+
+
+.avatar_img {
+    max-width: 64px;
+    max-height: 64px;
+    width: auto;
+    height: auto;
+}
+
+.avatar_profile_img {
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+}
+
+/*.new_comment_textinput{*/
+/*    size: 400px;*/
+/*}*/

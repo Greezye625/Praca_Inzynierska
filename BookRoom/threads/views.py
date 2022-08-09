@@ -1,7 +1,23 @@
 from django.shortcuts import render, redirect
 from threads.models import ThreadCategory, Thread, ThreadComment
 from threads import forms
+from django.views.generic.edit import DeleteView
 
+
+class OfferDeleteView(DeleteView):
+    # specify the model you want to use
+    model = Thread
+
+    template_name = 'threads/confirm_delete.html'
+
+    # can specify success url
+    # url to redirect after sucessfully
+    # deleting object
+    success_url = '/'
+
+
+
+# -------------------------------------------------------------------------
 
 def homepage(request):
     if request.method == 'GET':
@@ -55,8 +71,8 @@ def start_new_thread(request, pk):
         if form.is_valid():
 
             new_thread = Thread(name=form.cleaned_data['name'],
-                                creator=request.user,
-                                thread_category=thread_category)
+                                thread_category=thread_category,
+                                creator=request.user)
 
             new_thread.save()
 

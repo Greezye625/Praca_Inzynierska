@@ -1,9 +1,10 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from accounts import forms
 from accounts.models import UserProfile
 from django.contrib.auth.models import User
-from extra_views import CreateWithInlinesView, InlineFormSetFactory
+# from extra_views import CreateWithInlinesView, InlineFormSetFactory
 from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView,
                                   ListView, )
@@ -11,14 +12,15 @@ from django.views.generic import (CreateView, UpdateView,
 
 def change_avatar(request):
     if request.method == 'POST':
-        form = forms.AvatarChangeForm(request.POST)
+        # form = forms.AvatarChangeForm(request.POST)
+        form = forms.AvatarChangeForm(request.POST, request.FILES)
 
         if form.is_valid():
             user = request.user
-            if not user.userprofile:
-                user.userprofile = UserProfile(avatar=form.cleaned_data['avatar'])
+            if hasattr(user, 'userprofile'):
+                user.userprofile.avatar = form.files['avatar']
             else:
-                user.userprofile.avatar = form.cleaned_data['avatar']
+                user.userprofile = UserProfile(avatar=form.files['avatar'])
             user.userprofile.save()
 
         return redirect('accounts:user_profile_page', pk=request.user.pk)
@@ -45,6 +47,18 @@ class CreateUserForm(CreateView):
 
     template_name = 'accounts/signup.html'
 
+    def form_valid(self, form):
+        super(CreateUserForm, self).form_valid(form)
+
+        user = self.object
+
+        userprofile = UserProfile(user=user)
+
+        userprofile.save()
+
+        return HttpResponseRedirect(self.success_url)
+
+
 # class UserInline(InlineFormSetFactory):
 #     model = User
 #     fields = ['username', 'email', 'password1', 'password2']
@@ -66,7 +80,7 @@ class CreateUserForm(CreateView):
 #     def get_success_url(self):
 #         return self.inlines[0].model.get_absolute_url(UserProfile)
 #
-#     def forms_valid(self, form, inlines):
+#     def form_valid(self, form, inlines):
 #         password1 = form.cleaned_data['password1']
 #         password2 = form.cleaned_data['password2']
 #

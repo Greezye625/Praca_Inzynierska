@@ -6,22 +6,29 @@
 {% endblock %}
 
 {% block bodyblock %}
-    {% if profile_page_user.userprofile.avatar %}
-        <h1>{{ profile_page_user.userprofile.avatar }}</h1>
-    {% else %}
-        <h1>default avatar</h1>
-    {% endif %}
+    <div class="p-3 bg-white rounded shadow-sm">
 
-    {% if profile_page_user.pk is user.pk %}
-        <a href="{% url 'accounts:avatar_change' %}" type="button" class="btn btn-primary btn-sm">Change avatar</a>
-    {% endif %}
+        <h3><strong>
+            {{ profile_page_user.username|capfirst }}
+            {% if user.is_authenticated and profile_page_user.pk is not user.pk %}
+                <a href="{% url 'conversations:start_new' recipent_pk=profile_page_user.pk %}" type="button" class="btn btn-primary btn-sm blue_button">Send a message</a>
+            {% endif %}
+        </strong>
+        </h3>
 
-    {% if profile_page_user.pk is not user.pk%}
-        <a href="{% url 'conversations:start_new' recipent_pk=profile_page_user.pk %}" type="button" class="btn btn-primary btn-sm">Send a message</a>
-    {% endif %}
+        {% if profile_page_user.userprofile.avatar %}
+            <img class="avatar_profile_img" src="/static/avatars{{ profile_page_user.userprofile.avatar.url }}" alt="...">
+        {% else %}
+            <h1><img class="avatar_profile_img" src="/static/avatars/default_avatar.png" alt="..."></h1>
+        {% endif %}
 
-    <p></p>
-    {{ profile_page_user.username|capfirst }}
-    <p></p>
-    {{ profile_page_user.email }}
+        <p></p>
+        {% if profile_page_user.pk is user.pk %}
+            <a href="{% url 'accounts:avatar_change' %}" type="button" class="btn btn-primary btn-md blue_button">Change avatar</a>
+        {% endif %}
+
+
+        <p></p>
+        <h4>{{ profile_page_user.email }}</h4>
+    </div>
 {% endblock %}

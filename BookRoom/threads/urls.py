@@ -24,4 +24,5 @@ urlpatterns = [
     re_path('^category/(?P<pk>\d+)/$', views.category, name='category'),
     re_path('^thread/(?P<pk>\d+)/$', views.thread_view, name='thread'),
     re_path('^new_thread/(?P<pk>\d+)/$', views.start_new_thread, name='start_new_thread'),
+    path('<pk>/delete/', views.OfferDeleteView.as_view(), name='confirm_delete'),
 ]

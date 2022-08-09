@@ -14,9 +14,10 @@ class Thread(models.Model):
     name = models.CharField(max_length=256)
 
     creator = models.ForeignKey(get_user_model(),
-                                related_name='creator_id',
+                                related_name='creator',
                                 on_delete=models.SET_NULL,
-                                null=True)
+                                null=True,
+                                blank=True)
 
 
     thread_category = models.ForeignKey(ThreadCategory,

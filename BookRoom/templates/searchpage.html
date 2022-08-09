@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block headblock %}
+    <title>testing</title>
+{% endblock %}
+
+{% block bodyblock %}
+    <p></p>
+    <div class="p-3 bg-white rounded shadow-sm border-bottom">
+        <h4>Users</h4>
+        <p></p>
+        {% for found_user in users_found %}
+            <div class=" py-2 border-bottom">
+                <a href="{% url 'accounts:user_profile_page' pk=found_user.pk %}">
+                    {% if found_user.userprofile.avatar %}
+                        <img class="avatar_img" src="/static/avatars{{ found_user.userprofile.avatar.url }}" alt="...">
+                    {% else %}
+                        <h1><img class="avatar_img" src="/static/avatars/default_avatar.png" alt="..."></h1>
+                    {% endif %}
+                </a>
+
+                <h5><a href="{% url 'accounts:user_profile_page' pk=found_user.pk %}"><strong class="d-block text-gray-dark link_text">{{ found_user }}</strong></a></h5>
+            </div>
+        {% endfor %}
+    </div>
+
+    <p></p>
+
+    <div class="p-3 bg-white rounded shadow-sm border-bottom">
+        <h4>Threads</h4>
+        <p></p>
+        {% for found_thread in threads_found %}
+            <div class=" py-2 border-bottom">
+                <div class="d-flex text-muted py-2">
+                    <img class="icon" src="/static/icons/book_icon.png" alt="...">
+
+                    <h5 class="p-2 mb-0 medium lh-sm">
+                        <a href={% url 'threads:thread' pk=found_thread.pk %}><strong class="d-block text-gray-dark">{{ found_thread }}</strong></a>
+                    </h5>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <p></p>
+
+    <div class="p-3 bg-white rounded shadow-sm border-bottom">
+        <h4>Transaction offers</h4>
+        <p></p>
+        {% for found_transaction in transactions_found %}
+            <div class=" py-2 border-bottom">
+                <div class="d-flex text-muted py-2">
+                    <img class="icon" src="/static/icons/offer.png" alt="...">
+
+                    <h5 class="p-2 mb-0 medium lh-sm">
+                        <a href={% url 'threads:thread' pk=found_transaction.pk %}><strong class="d-block text-gray-dark">{{ found_transaction }}</strong></a>
+                    </h5>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <p></p>
+
+    <div class="p-3 bg-white rounded shadow-sm border-bottom">
+        <h4>Comments</h4>
+        <p></p>
+        {% for thread_comment_found in thread_comments_found %}
+            <div class="py-2 border-bottom">
+                <div class="d-flex text-muted py-2">
+
+                    {% if thread_comment_found.thread.thread_category.name in 'BuySellExchange' %}
+                        <img class="icon" src="/static/icons/offer.png" alt="...">
+                    {% else %}
+                        <img class="icon" src="/static/icons/book_icon.png" alt="...">
+                    {% endif %}
+
+{#                    <img class="icon" src="/static/icons/book_icon.png" alt="...">#}
+
+                    <h5 class="p-2 mb-0 medium lh-sm">
+                        <a href={% url 'threads:thread' pk=thread_comment_found.thread.pk %}><strong class="d-block text-gray-dark">{{ thread_comment_found.thread }}</strong></a>
+                    </h5>
+                    <p></p>
+                    <p class="p-2 mb-0 medium lh-sm">{{ thread_comment_found.text_content }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+{% endblock %}

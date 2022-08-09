@@ -2,13 +2,15 @@
 {% load bootstrap4 %}
 
 {% block headblock %}
-    <title>Stat new conversation with {{ recipent }}</title>
+    <title>New conversation</title>
 {% endblock %}
 
 {% block bodyblock %}
+    <h3>Start new conversation with {{ recipent }}</h3>
+    <p></p>
     <form action="{% url 'conversations:start_new' recipent_pk=recipent.pk %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Send">
+        <input class="btn btn-primary btn-md blue_button" type="submit" value="Send">
     </form>
 {% endblock %}

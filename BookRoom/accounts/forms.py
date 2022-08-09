@@ -6,7 +6,7 @@ from django import forms
 
 
 class AvatarChangeForm(forms.Form):
-    avatar = forms.CharField(label='new avatar', max_length=256)
+    avatar = forms.ImageField(label='Select image file')
 
 
 class UserCreateForm(UserCreationForm):
@@ -18,22 +18,3 @@ class UserCreateForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['username'].label = 'Display Name'
         self.fields['email'].label = 'Email Address'
-
-# class UserProfileForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = UserProfile
-#         exclude = ()
-
-
-# UserProfileFormSet = inlineformset_factory(get_user_model(), UserProfile, fields=('avatar',))
-
-
-# class UserForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = get_user_model()
-#         fields = ['username', 'email']
-#
-#     password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
-#     password2 = forms.CharField(widget=forms.PasswordInput, label='Confirm Password')

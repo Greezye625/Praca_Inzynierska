@@ -5,19 +5,81 @@
 {% endblock %}
 
 {% block bodyblock %}
-    {% for comment in comments %}
-        <p><a href={% url 'accounts:user_profile_page' pk=comment.poster.pk %}>{{ comment.poster }}</a> said: {{ comment.text_content }}</p>
-        <p></p>
-        {% if comment.poster == user %}
-            <a href="#" type="button" class="btn btn-primary btn-md">Delete Comment</a>
-        {% endif %}
-        <p>-----------------</p>
-        <p></p>
-    {% endfor %}
 
-        <div class="basic">
+
+    <div class="p-3 bg-white rounded shadow-sm">
+        <h2 class="border-bottom">{{ thread }}</h2>
+        {% if thread.thread_category.name in 'SellBuyExchange' %}
+            {% if user == thread.creator %}
+                <form action="{% url 'threads:confirm_delete' pk=thread.pk %}" method="get">
+                    <input class="btn btn-primary btn-md blue_button" type="submit" value="End Transaction Offer">
+                </form>
+            {% else %}
+                {% if user.is_authenticated and thread.creator is not None %}
+                    <a href="{% url 'conversations:start_new' recipent_pk=thread.creator.pk %}" type="button" class="btn btn-primary btn-sm blue_button">Send a message</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% for comment in comments %}
+
+            <div class=" py-2 border-bottom">
+                <table style="width: 100%">
+                    <tr>
+                        <td>
+
+                            <h5 class="pb-3 mb-0 medium lh-sm">
+                                {% if comment.poster is not None %}
+                                    <a href="{% url 'accounts:user_profile_page' pk=comment.poster.pk %}"><strong class="d-block text-gray-dark link_text">{{ comment.poster }}</strong></a>
+                                {% else %}
+                                    Deleted
+                                {% endif %}
+                            </h5>
+                        </td>
+                        <td class="text-muted" style="text-align: right;">
+                            <p>{{ comment.post_datetime }}</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <td>
+                            {% if comment.poster is not None %}
+                            <a href="{% url 'accounts:user_profile_page' pk=comment.poster.pk %}">
+                                {% if comment.poster.userprofile.avatar %}
+                                    <img class="avatar_img" src="/static/avatars{{ comment.poster.userprofile.avatar.url }}" alt="...">
+                                {% else %}
+                                    <h1><img class="avatar_img" src="/static/avatars/default_avatar.png" alt="..."></h1>
+                                {% endif %}
+                            </a>
+                            {% else %}
+                                <h1><img class="avatar_img" src="/static/avatars/default_avatar.png" alt="..."></h1>
+                            {% endif %}
+                        </td>
+
+                        <td style="vertical-align: text-top;">
+                            <p style="padding-left: 20px">{{ comment.text_content }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    {% if thread.thread_category.name in 'SellBuyExchange' %}
+        {% if user == thread.creator %}
+            <div class="px-3 pb-2 bg-white rounded shadow-sm">
+                {% include "threads/add_comment_subtemplate.html" %}
+            </div>
+        {% endif %}
+    {% elif user.is_authenticated %}
+        <div class="px-3 pb-2 bg-white rounded shadow-sm">
             {% include "threads/add_comment_subtemplate.html" %}
         </div>
+    {% endif %}
+
+
 
 
 {% endblock %}

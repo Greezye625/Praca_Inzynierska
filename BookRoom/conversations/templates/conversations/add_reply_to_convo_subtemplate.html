@@ -1,6 +1,7 @@
-<h1>Reply:</h1>
 <form action="{% url 'conversations:conversation_page' conversation_pk=conversation.pk %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Send">
+    <p>
+    </p>
+    <input class="btn btn-primary btn-md blue_button" type="submit" value="Reply">
 </form>

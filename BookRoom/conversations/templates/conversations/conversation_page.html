@@ -5,28 +5,75 @@
 {% endblock %}
 
 {% block bodyblock %}
-    {% if conversation.initiator == user %}
-        <p>Conversation with {{ conversation.recipent }}</p>
-    {% elif conversation.recipent == user %}
-        <p>Conversation with {{ conversation.initiator }}</p>
-    {% endif %}
 
-    <p></p>
-    <p>Subject: {{ conversation.subject }}</p>
+    <h4 class="p-1 border-bottom">
+        {% if conversation.initiator == user %}
+            {% if conversation.recipent is not None %}
+                <p>Conversation with {{ conversation.recipent }}</p>
+            {% else %}
+                <p>Conversation with Deleted</p>
+            {% endif %}
 
-    {% for message in messages %}
-        <p><a href={% url 'accounts:user_profile_page' pk=message.sender.pk %}>{{ message.sender }}</a>: {{ message.content }}</p>
-        <p></p>
-        {% if message.sender == user %}
-            <a href="#" type="button" class="btn btn-primary btn-md">Delete message</a>
+        {% elif conversation.recipent == user %}
+            {% if conversation.initiator is not None %}
+                <p>Conversation with {{ conversation.initiator }}</p>
+            {% else %}
+                <p>Conversation with Deleted</p>
+            {% endif %}
         {% endif %}
-        <p>-----------------</p>
         <p></p>
-    {% endfor %}
 
-    <div class="basic">
-        {% include "conversations/add_reply_to_convo_subtemplate.html" %}
+        <p>Subject: {{ conversation.subject }}</p>
+    </h4>
+    <div class="p-2 bg-white rounded shadow-sm">
+
+        {% for message in messages %}
+
+            <div class=" py-2 border-bottom">
+                <table style="width: 100%">
+                    <tr>
+                        <td>
+                            <h5 class="pb-3 mb-0 medium lh-sm">
+                                {% if message.sender is not None %}
+                                    <a href="{% url 'accounts:user_profile_page' pk=message.sender.pk %}"><strong class="d-block text-gray-dark link_text">{{ message.sender }}</strong></a>
+                                {% else %}
+                                    Deleted
+                                {% endif %}
+                            </h5>
+                        </td>
+                        <td class="text-muted" style="text-align: right;">
+                            <p>{{ comment.post_datetime }}</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <td>
+                            {% if message.sender is not None %}
+                                {% if message.sender.userprofile.avatar %}
+                                    <img class="avatar_img" src="/static/avatars{{ message.sender.userprofile.avatar.url }}" alt="...">
+                                {% else %}
+                                    <h1><img class="avatar_img" src="/static/avatars/default_avatar.png" alt="..."></h1>
+                                {% endif %}
+
+                            {% else %}
+                                <h1><img class="avatar_img" src="/static/avatars/default_avatar.png" alt="..."></h1>
+                            {% endif %}
+                        </td>
+
+                        <td style="vertical-align: text-top;">
+                            <p style="padding-left: 20px">{{ message.content }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+        <p></p>
+
+        {% if conversation.initiator is not None and conversation.recipent is not None %}
+            {% include "conversations/add_reply_to_convo_subtemplate.html" %}
+        {% endif %}
     </div>
-
 
 {% endblock %}
